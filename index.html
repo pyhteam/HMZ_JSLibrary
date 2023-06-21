@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HMZ Library JS</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/js/bootstrap.min.js" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-success">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" href="#">HMZ Lib</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarID"
+                    aria-controls="navbarID" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarID">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- silde Bar -->
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/"
+                        class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+                        id="menu">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i>
+                                <span class="ms-1 d-none d-sm-inline">Home</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-people"></i>
+                                <span class="ms-1 d-none d-sm-inline">Customers</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <hr />
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                class="rounded-circle" />
+                            <span class="d-none d-sm-inline mx-1">loser</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Conntent -->
+            <div class="col py-3">
+
+                <!-- Table Users -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <h1>Users</h1>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-primary float-right" data-toggle="modal"
+                                data-target="#exampleModal">
+                                Add User
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="hmzTable">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./hmzLibrary.js"></script>
+        <script>
+            // docment ready
+            document.addEventListener("DOMContentLoaded", function (event) {
+                const colums = [
+                    {
+                        id: 1,
+                        field: "id",
+                        name: "id",
+                        type: "number"
+                    },
+                    {
+                        id: 2,
+                        field: "name",
+                        name: "name",
+                        type: "text"
+                    },
+                    {
+                        id: 3,
+                        field: "username",
+                        name: "username",
+                        type: "text"
+                    },
+                    {
+                        id: 4,
+                        field: "email",
+                        name: "email",
+                        type: "text"
+                    },
+                    {
+                        id: 5,
+                        field: "phone",
+                        name: "phone",
+                        type: "text"
+                    },
+                    {
+                        id: 6,
+                        field: "website",
+                        name: "website",
+                        type: "text"
+                    }
+                ]
+                getData(colums);
+            });
+            // colums
+            function getData(colums) {
+                // Get Data
+                let API_URL = "https://jsonplaceholder.typicode.com/users";
+                const configs ={
+                    id: "hmzDatatable",
+                    class: "table table-striped table-hover",
+                    showAction: {
+                        edit: true,
+                        delete: true,
+                        view: true
+                    },
+                    buttons: [
+                        {
+                            id: "btnEdit",
+                            class: "btn btn-primary",
+                            text: "Edit",
+                            icon: "bi-pencil-square",
+                            event: function (data) {
+                                // get data-id
+                                let id= data.srcElement.dataset.id;
+                                alert(id);
+                            }
+                        },
+                        {
+                            id: "btnDelete",
+                            class: "btn btn-danger",
+                            text: "Delete",
+                            icon: "bi-trash",
+                            event: function (data) {
+                                let id= data.srcElement.dataset.id;
+                                alert(id);
+                            }
+                        },
+                        {
+                            id: "btnView",
+                            class: "btn btn-success",
+                            text: "View",
+                            icon: "bi-eye",
+                            event: function (data) {
+                               let id= data.srcElement.dataset.id;
+                                 alert(id);
+                            }
+                        }
+                    ]
+                }
+                let data = HMZ.httpClient(API_URL, "GET")
+                    .then(function (res) {
+                        if (res.length > 0) {
+                            let table = HMZ.createTable(res, colums, configs);
+                            console.log(table);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error("Error:", error);
+                    });
+            }
+
+
+
+        </script>
+</body>
+
+</html>
