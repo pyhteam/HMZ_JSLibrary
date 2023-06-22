@@ -7,6 +7,96 @@
     <title>HMZ Library JS</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="node_modules/bootstrap/dist/js/bootstrap.min.js" />
+
+    <style>
+        .hmz-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .hmz-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 0;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .hmz-modal-content:hover {
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background-color: rgb(25, 195, 125);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .modal-title {
+            margin: 0;
+        }
+
+        .hmz-modal-body {
+            padding: 20px;
+        }
+
+        .hmz-modal-footer {
+            text-align: right;
+            padding: 20px;
+        }
+
+        .close {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: pink;
+            text-decoration: none;
+        }
+
+        .hmz-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        .hmz-btn-primary {
+            background-color: #007bff;
+        }
+         .hmz-btn-success {
+            background-color: #28a745;
+        }
+         .hmz-btn-danger {
+            background-color: #dc3545;
+        }
+         .hmz-btn-warning {
+            background-color: #ffc107;
+        }
+         .hmz-btn-info {
+            background-color: #17a2b8;
+        }
+        .hmz-button:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,6 +133,7 @@
                                 <span class="ms-1 d-none d-sm-inline">Home</span>
                             </a>
                         </li>
+
                         <li>
                             <a href="/" class="nav-link px-0 align-middle">
                                 <i class="fs-4 bi-people"></i>
@@ -89,22 +180,30 @@
                 <div class="container">
                     <div class="row">
                         <div class="col">
-                            <h1>Post</h1>
+                            <h1>Modal</h1>
                         </div>
                         <div class="col">
-                            <button type="button" class="btn btn-primary float-right" data-toggle="modal"
-                                data-target="#exampleModal">
-                                Add Post
+                            <button type="button" id="myButton" class="btn btn-primary float-right">
+                                Launch demo modal
                             </button>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col" id="hmzTable">
 
-
-                        </div>
-                        <div id="paginate">
-
+                        <div id="myModal" class="hmz-modal">
+                            <div class="hmz-modal-content">
+                                <div class="modal-header" >
+                                    <h4>Modal Tiêu đề</h4>
+                                    <span class="close">&times;</span>
+                                </div>
+                                <div class="hmz-modal-body">
+                                    <p>Đây là nội dung của modalĐây là.</p>
+                                </div>
+                                <div class="hmz-modal-footer">
+                                    <button class="hmz-button hmz-btn-danger" id="cancelButton">Hủy</button>
+                                    <button class="hmz-button hmz-btn-primary" id="closeButton">Đóng</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -112,112 +211,36 @@
         </div>
         <script src="./hmzLibrary.js"></script>
         <script>
-            // docment ready
-            document.addEventListener("DOMContentLoaded", function (event) {
-                const colums = [
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("myButton");
+            var closeButton = document.getElementById("closeButton");
+            var cancelButton = document.getElementById("cancelButton");
+            var span = document.getElementsByClassName("close")[0];
 
-                    {
-                        id: 2,
-                        field: "id",
-                        name: "id",
-                        type: "number"
-                    },
-                    {
-                        id: 3,
-                        field: "title",
-                        name: "title",
-                        type: "text"
-                    }
-
-                ]
-                getData(colums);
-            });
-            // colums
-            function getData(colums) {
-                // Get Data
-                let API_URL = "https://jsonplaceholder.typicode.com/posts";
-                const configs = {
-                    id: "hmzDatatable",
-                    class: "table table-striped table-hover",
-                    showAction: {
-                        edit: true,
-                        delete: true,
-                        view: true
-                    },
-                    paginate: true,
-                    buttons: [
-                        {
-                            id: "btnEdit",
-                            class: "btn btn-primary",
-                            text: "Edit",
-                            icon: "bi-pencil-square",
-                            event: function (data) {
-                                // get data-id
-                                let id = data.srcElement.dataset.id;
-                                alert(id);
-                            }
-                        },
-                        {
-                            id: "btnDelete",
-                            class: "btn btn-danger",
-                            text: "Delete",
-                            icon: "bi-trash",
-                            event: function (data) {
-                                let id = data.srcElement.dataset.id;
-                                alert(id);
-                            }
-                        },
-                        {
-                            id: "btnView",
-                            class: "btn btn-success",
-                            text: "View",
-                            icon: "bi-eye",
-                            event: function (data) {
-                                let id = data.srcElement.dataset.id;
-                                alert(id);
-                            }
-                        }
-                    ]
-
-                }
-                let pageConfig = {
-                    pageIndex: 1,
-                    pageSize: 10,
-                    totalItems: 0,
-                    method: "GET",
-                    event: function () {
-
-                    }
-                }
-                let data = HMZ.httpClient(API_URL, "GET")
-                    .then(function (res) {
-                        if (res.length > 0) {
-                            // slip data 10 item 
-                            let nextData = res ? res.slice(0, 10) : [];
-
-                            let configPage = {
-                                ...pageConfig,
-                                totalItems: res.length,
-                                event: function (pageIndex) {
-                                    console.log(pageIndex);
-                                    nextData = res.slice((pageIndex - 1) * 10, pageIndex * 10);
-                                    // clear table
-                                    let hmzTableBody = document.getElementById("hmzTableBody");
-
-                                    let bodyTable = HMZ.createTBodyTable(nextData,colums, configs);
-                                    hmzTableBody.innerHTML = "";
-                                    hmzTableBody.replaceWith(bodyTable);
-
-                                }
-                            }
-                            HMZ.createTable(nextData, colums, configs, configPage);
-
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error("Error:", error);
-                    });
+            btn.onclick = function () {
+                modal.style.display = "block";
             }
+
+            closeButton.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            cancelButton.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == closeButton) {
+                    modal.style.display = "none";
+                }
+            }
+
+
+
 
 
         </script>

@@ -2,7 +2,7 @@
 (function (global) {
 
 
-    //#region   private methods
+    //#region   private methods Table  and Pagination
     /*
      * @param {object} data
      * @param {array} colums
@@ -331,11 +331,46 @@
         });
         return nav;
     }
+    // #endregion
+
+
+    // #region   Methods module Modal
+    function createModal(config) {
+        const modalConfig = {
+            title: config.title || "Modal title",
+            body: config.body || "Modal body",
+            footer: config.footer || "Modal footer",
+            buttons: config.buttons || [
+                {
+                    id: "close",
+                    text: "Close",
+                    class: "btn btn-secondary",
+                    icon: "fas fa-times",
+                    handler: function () {
+                        console.log("Close button clicked");
+                    }
+                },
+                {
+                    id: "save",
+                    text: "Save changes",
+                    class: "btn btn-primary",
+                    icon: "fas fa-save",
+                    handler: function () {
+                        console.log("Save button clicked");
+                    }
+
+                }
+            ]
+        }
+    }
+
+
+    // #endregion
 
 
 
     // Example POST method implementation:
-    /* let data = HMZ.httpClient(API_URL, "GET")
+    /* let data = HMZ.httpClient(API_URL, "GET",{ username: 'example' }})
         .then(function (res) {
             console.log(res);
         })
