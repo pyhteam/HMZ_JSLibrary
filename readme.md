@@ -93,7 +93,7 @@ function getData(colums) {
                     totalItems: res.length,
                     event: function(pageIndex) {
                         console.log(pageIndex);
-                        nextData = res.slice((pageIndex - 1) _ 10, pageIndex _ 10);
+                        nextData = res.slice((pageIndex - 1) - 10, pageIndex - 10);
                         // clear table
                         let hmzTableBody = document.getElementById("hmzTableBody");
 
